@@ -28,9 +28,6 @@ def process_csv_files(input_dir):
             if 'text' not in df.columns:
                 print(f"Skipping {file_name}: No 'text' column found.")
                 continue
-            if 'detected_language' in df.columns:
-                print(f"Skipping {file_name}: 'detected_language' column already exists.")
-                continue
 
             # Detect languages for each text
             try:
