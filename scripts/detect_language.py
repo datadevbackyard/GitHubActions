@@ -1,17 +1,18 @@
 import os
 import pandas as pd
-from linguapy.detect import Detector
+from lingua import Language, LanguageDetectorBuilder
 
 # Directories for input and output
 INPUT_DIR = "input_data"
 OUTPUT_DIR = "output_data"
 
 def process_csv_files(input_dir, output_dir):
-    # Initialize the language detector
-    detector = Detector()
-
     # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
+
+    # Define the languages to detect
+    languages = [Language.ENGLISH, Language.FRENCH, Language.GERMAN, Language.SPANISH]
+    detector = LanguageDetectorBuilder.from_languages(*languages).build()
 
     # Process each file in the input directory
     for file_name in os.listdir(input_dir):
@@ -39,7 +40,7 @@ def process_csv_files(input_dir, output_dir):
             # Detect languages for each text
             try:
                 df['detected_language'] = df['text'].apply(
-                    lambda x: detector.detect(x).lang if isinstance(x, str) else None
+                    lambda x: detector.detect_language_of(x).iso_code_639_1.name if isinstance(x, str) else None
                 )
             except Exception as e:
                 print(f"Error processing {file_name}: {e}")
