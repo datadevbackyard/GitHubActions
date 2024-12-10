@@ -34,13 +34,4 @@ jobs:
       - name: Run language detection
         run: python scripts/detect_language.py
 
-      # Step 5: Commit and push changes
-      - name: Commit and push changes
-        run: |
-          git config --global user.name "data.dev.backyard"
-          git config --global user.email "datadevbackyard@gmail.com"
-          git add output_data/*.csv
-          git commit -m "Update processed CSV files with detected languages"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:$GITHUB_REF
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

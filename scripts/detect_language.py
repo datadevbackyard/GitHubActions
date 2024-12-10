@@ -2,14 +2,10 @@ import os
 import pandas as pd
 from lingua import Language, LanguageDetectorBuilder
 
-# Directories for input and output
+# Directories for input data
 INPUT_DIR = "input_data"
-OUTPUT_DIR = "output_data"
 
-def process_csv_files(input_dir, output_dir):
-    # Ensure output directory exists
-    os.makedirs(output_dir, exist_ok=True)
-
+def process_csv_files(input_dir):
     # Define the languages to detect
     languages = [Language.ENGLISH, Language.FRENCH, Language.GERMAN, Language.SPANISH]
     detector = LanguageDetectorBuilder.from_languages(*languages).build()
@@ -18,7 +14,6 @@ def process_csv_files(input_dir, output_dir):
     for file_name in os.listdir(input_dir):
         if file_name.endswith(".csv"):  # Check for CSV files
             input_file_path = os.path.join(input_dir, file_name)
-            output_file_path = os.path.join(output_dir, file_name)
 
             print(f"Processing file: {file_name}")
 
@@ -42,16 +37,13 @@ def process_csv_files(input_dir, output_dir):
                 df['detected_language'] = df['text'].apply(
                     lambda x: detector.detect_language_of(x).iso_code_639_1.name if isinstance(x, str) else None
                 )
+
+                # Print out the detected languages
+                for index, row in df.iterrows():
+                    print(f"Text: {row['text']} - Detected Language: {row['detected_language']}")
             except Exception as e:
                 print(f"Error processing {file_name}: {e}")
                 continue
 
-            # Save the updated dataframe to the output directory
-            try:
-                df.to_csv(output_file_path, index=False)
-                print(f"Processed file saved to {output_file_path}")
-            except Exception as e:
-                print(f"Error saving {file_name}: {e}")
-
 if __name__ == "__main__":
-    process_csv_files(INPUT_DIR, OUTPUT_DIR)
+    process_csv_files(INPUT_DIR)
