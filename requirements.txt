@@ -1,2 +1,2 @@
 pandas
-linguapy
+lingua-language-detector
