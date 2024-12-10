@@ -1,8 +1,13 @@
 name: Language Detection Workflow
 
+#on:
+#  schedule:
+#    - cron: '0 */12 * * *'  # Run every 12 hours
+
 on:
-  schedule:
-    - cron: '0 */12 * * *'  # Run every 12 hours
+  push:
+    branches:
+      - main
 
 jobs:
   process-files:
