@@ -32,7 +32,7 @@ jobs:
 
       # Step 4: Run the language detection script
       - name: Run language detection
-        run: python ../scripts/detect_language.py
+        run: python scripts/detect_language.py
 
       # Step 5: Commit and push changes
       - name: Commit and push changes
